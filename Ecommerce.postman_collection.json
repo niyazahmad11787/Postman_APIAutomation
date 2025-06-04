@@ -15,13 +15,34 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();",
-							"pm.expect(jsonData.message).to.eql(\"Login Successfully\")",
-							"pm.collectionVariables.set(\"token\",jsonData.token);",
-							"pm.collectionVariables.set(\"userId\",jsonData.userId);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+							"});",
+							"pm.test(\"Token is present\", function () {",
+							"    pm.expect(jsonData.token).to.not.be.null;",
+							"});",
+							"pm.test(\"User ID is present\", function () {",
+							"    pm.expect(jsonData.userId).to.not.be.null;",
+							"});",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Login Successfully\")",
+							"});",
+							"pm.test(\"Token and User ID are set in collection variables\", function () {",
+							"    pm.expect(jsonData.token).to.not.be.null;",
+							"    pm.expect(jsonData.userId).to.not.be.null;",
+							"    pm.collectionVariables.set(\"token\", jsonData.token);",
+							"    pm.collectionVariables.set(\"userId\", jsonData.userId);",
+							"});",
+							"",
 							"",
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -30,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userEmail\": \"postman@gmail.com\",\n    \"userPassword\": \"Hello123@\"\n}",
+					"raw": "{\n    \"userEmail\": \"testingpostman123@gmail.com\",\n    \"userPassword\": \"Niyaz@123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,8 +83,25 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();",
-							"pm.collectionVariables.set(\"productId\",jsonData.productId);",
-							"pm.expect(jsonData.message).to.eql(\"Product Added Successfully\");"
+							"console.log(jsonData);",
+							"",
+							"pm.test(\"ProductID are set in collection variables\", function () {",
+							"    pm.expect(jsonData.productId).to.not.be.null;",
+							"    pm.collectionVariables.set(\"productId\", jsonData.productId);",
+							"    });",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    });",
+							"",
+							"pm.test(\"Response time is less than 1200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+							"    });",
+							"",
+							"pm.test(\"Response body contains correct message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Product Added Successfully\");",
+							"    });",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -120,7 +158,7 @@
 						{
 							"key": "productImage",
 							"type": "file",
-							"src": "/C:/Users/ahmed.niyaz/OneDrive - HIPPOSTORES TECHNOLOGY PRIVATE LIMITED/Documents/1000025770/file_example_JPG_1MB.jpg"
+							"src": "/C:/Users/ahmed.niyaz/OneDrive - HIPPOSTORES TECHNOLOGY PRIVATE LIMITED/Pictures/Laptop.png"
 						}
 					]
 				},
@@ -149,10 +187,39 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();",
-							"pm.collectionVariables.set(\"orderId\",jsonData.orders[0]);",
-							"pm.expect(jsonData.message).to.eql(\"Order Placed Successfully\");"
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Check if orders array is not empty\", function () {",
+							"    pm.expect(jsonData.orders).to.not.be.empty;",
+							"});",
+							"",
+							"pm.test(\"Check if productOrderId array is not empty\", function () {",
+							"    pm.expect(jsonData.productOrderId).to.not.be.empty;",
+							"});",
+							"",
+							"pm.test(\"Check if message is 'Order Placed Successfully'\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Order Placed Successfully\");",
+							"});",
+							"",
+							"pm.test(\"Check if orderId is set in collection variables\", function () {",
+							"    pm.expect(pm.collectionVariables.get(\"productOrderId\")).to.be.undefined;",
+							"    pm.expect(pm.collectionVariables.get(\"productOrderId\")).to.be.undefined;",
+							"    pm.collectionVariables.set(\"orderId\",jsonData.orders[0]);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -199,9 +266,27 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();",
-							"pm.expect(jsonData.data.productName).to.eql(pm.collectionVariables.get(\"productName\"));"
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    });",
+							"",
+							"pm.test(\"Response time is less than 1200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+							"    });",
+							"",
+							"pm.test(\"Order details fetched successfully\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Orders fetched for customer Successfully\");",
+							"    });",
+							"",
+							"pm.test(\"Check Product name is correct\", function () {",
+							"    pm.expect(jsonData.data.productName).to.eql(pm.collectionVariables.get(\"productName\"));",
+							"    });",
+							"",
+							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -323,7 +408,7 @@
 		},
 		{
 			"key": "productName",
-			"value": "Automation",
+			"value": "EcommerceAutomation",
 			"type": "string"
 		}
 	]
