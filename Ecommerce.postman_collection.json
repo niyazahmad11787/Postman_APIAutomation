@@ -44,6 +44,23 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.collectionVariables.set(\"email\", pm.iterationData.get(\"Email\"));\r",
+							"// console.log(pm.collectionVariables.get(\"email\"));\r",
+							"\r",
+							"// pm.collectionVariables.set(\"password\", pm.iterationData.get(\"Password\"));\r",
+							"// console.log(pm.collectionVariables.get(\"password\"));\r",
+							"//  // Set the email from iteration data\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"request": {
@@ -51,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userEmail\": \"testingpostman123@gmail.com\",\n    \"userPassword\": \"Niyaz@123\"\n}",
+					"raw": "{\n    \"userEmail\": \"{{email}}\",\n    \"userPassword\": \"{{password}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,7 +100,6 @@
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();",
-							"console.log(jsonData);",
 							"",
 							"pm.test(\"ProductID are set in collection variables\", function () {",
 							"    pm.expect(jsonData.productId).to.not.be.null;",
@@ -101,6 +117,16 @@
 							"pm.test(\"Response body contains correct message\", function () {",
 							"    pm.expect(jsonData.message).to.eql(\"Product Added Successfully\");",
 							"    });",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
 							""
 						],
 						"type": "text/javascript",
@@ -158,7 +184,7 @@
 						{
 							"key": "productImage",
 							"type": "file",
-							"src": "/C:/Users/ahmed.niyaz/OneDrive - HIPPOSTORES TECHNOLOGY PRIVATE LIMITED/Pictures/Laptop.png"
+							"src": "postman-cloud:///1f04137e-5d7d-47a0-a61e-1dd5d2ee7c1e"
 						}
 					]
 				},
@@ -333,7 +359,8 @@
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -408,7 +435,17 @@
 		},
 		{
 			"key": "productName",
-			"value": "EcommerceAutomation",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
 			"type": "string"
 		}
 	]
